@@ -21,7 +21,7 @@ int main() {
         std::cin >> w[i] >> p[i];
     }
 
-    int l = n / 2, r = n - l + 1, a_size = std::pow(2, l), b_size = std::pow(2, r);
+    int l = n / 2, r = n - l, a_size = std::pow(2, l), b_size = std::pow(2, r);
 
     std::vector<int> pows(b_size + 1, 0);
     int exp = 1, pow = 2;
