@@ -13,10 +13,10 @@
 
 class PersistentSegmentTree {
 public:
-    PersistentSegmentTree(std::vector<uint32_t> ar) {
+    PersistentSegmentTree(const std::vector<uint32_t>& ar) {
         this->n = ar.size();
 
-        uint32_t LOG_N = 20;
+        uint32_t LOG_N = ceil(log2(n)) + 1;
 
         this->node_size = 3;
         this->layer_size = this->node_size * 2 * this->n;
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    uint32_t build_tree(uint32_t v, std::vector<uint32_t>& ar, uint32_t tl, uint32_t tr) {
+    uint32_t build_tree(uint32_t v, const std::vector<uint32_t>& ar, uint32_t tl, uint32_t tr) {
         if (tl == tr) {
             uint32_t cur_layer = v / this->layer_size;
             this->last_node_idx[cur_layer] += this->node_size;
@@ -144,20 +144,14 @@ int main() {
     uint32_t N, Q;
     std::cin >> N >> Q;
 
-    std::vector<uint32_t> A(N);
-
-    for (uint32_t i = 0; i < N; ++i) {
-        std::cin >> A[i];
-    }
-
-    PersistentSegmentTree tree(std::vector<uint32_t>(N, 0));
-
     std::vector<std::pair<uint32_t, uint32_t>> ar(N);
 
     for (uint32_t i = 0; i < N; ++i) {
-        ar[i].first = A[i];
+        std::cin >> ar[i].first;
         ar[i].second = i;
     }
+
+    PersistentSegmentTree tree(std::vector<uint32_t>(N, 0));
 
     std::sort(ar.begin(), ar.end(), [](const std::pair<uint32_t, uint32_t>& obj1, const std::pair<uint32_t, uint32_t>& obj2) {
        return obj1.first < obj2.first;
@@ -167,19 +161,12 @@ int main() {
         tree.set(x.second, 1);
     }
 
-
-    std::vector<uint32_t> result(Q, 0);
-
     for (uint32_t i = 0; i < Q; ++i) {
         uint32_t l, r, x, y;
         std::cin >> l >> r >> x >> y;
         int idx_x = binary_search(ar, x);
         int idx_y = binary_search(ar, y + 1);
-        result[i] = tree.get_sum((uint32_t) idx_y + 1, l - 1, r - 1) - tree.get_sum((uint32_t) idx_x + 1, l - 1, r - 1);
-    }
-
-    for (auto& r: result) {
-        std::cout << r << "\n";
+        std::cout << tree.get_sum((uint32_t) idx_y + 1, l - 1, r - 1) - tree.get_sum((uint32_t) idx_x + 1, l - 1, r - 1) << "\n";
     }
 
     return 0;
