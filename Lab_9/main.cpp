@@ -40,7 +40,7 @@ int main() {
             }
         }
 
-        double left = 0., right = max_a / min_b, min_diff = 1. / k / max_b / max_b;
+        double left = 0., right = max_a / min_b, min_diff = 1. / (k * max_b * max_b);
         double tmp, sum, sum_ai, sum_bi;
 
 //        std::cout << left << " " << right << std::endl;
