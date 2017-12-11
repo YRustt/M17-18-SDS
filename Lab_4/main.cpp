@@ -11,7 +11,7 @@ typedef std::pair<type, type> pair;
 
 
 int main() {
-    int n, W;
+    long long n, W;
 
     std::cin >> n >> W;
 
@@ -21,14 +21,20 @@ int main() {
         std::cin >> w[i] >> p[i];
     }
 
+    if (n == 1) {
+        if (w[0] <= W) {
+            std::cout << 1 << "\n" << 1 << std::endl;
+        } else {
+            std::cout << 0;
+        }
+        return 0;
+    }
+
     int l = n / 2, r = n - l, a_size = std::pow(2, l), b_size = std::pow(2, r);
 
     std::vector<int> pows(b_size + 1, 0);
-    int exp = 1, pow = 2;
-    while (pow != 2 * b_size) {
-        pows[pow] = exp;
-        exp += 1;
-        pow *= 2;
+    for (int i = 0; i < r + 1; ++i) {
+        pows[1 << i] = i;
     }
 
 
@@ -67,7 +73,7 @@ int main() {
     }
 
     long long opt_res = 0;
-    long long opt_ai, opt_bi;
+    long long opt_ai = 0, opt_bi = 0;
     for (int i = 0; i < a_size; ++i) {
         long long tmp_b = W - a[i].first;
 
@@ -121,7 +127,9 @@ int main() {
     }
 
     std::cout << res.size() << "\n";
-    for (auto& r: res) {
-        std::cout << r + 1 << " ";
+    for (int i = 0; i < res.size(); ++i) {
+        std::cout << res[i] + 1 << " ";
     }
+
+    return 0;
 }
