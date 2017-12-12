@@ -147,7 +147,7 @@ int main() {
     std::vector<std::pair<uint32_t, uint32_t>> ar(N);
 
     for (uint32_t i = 0; i < N; ++i) {
-        std::cin >> ar[i].first;
+        scanf("%u", &ar[i].first);
         ar[i].second = i;
     }
 
@@ -163,10 +163,10 @@ int main() {
 
     for (uint32_t i = 0; i < Q; ++i) {
         uint32_t l, r, x, y;
-        std::cin >> l >> r >> x >> y;
+        scanf("%u %u %u %u", &l, &r, &x, &y);
         int idx_x = binary_search(ar, x);
         int idx_y = binary_search(ar, y + 1);
-        std::cout << tree.get_sum((uint32_t) idx_y + 1, l - 1, r - 1) - tree.get_sum((uint32_t) idx_x + 1, l - 1, r - 1) << "\n";
+        printf("%u\n", tree.get_sum((uint32_t) idx_y + 1, l - 1, r - 1) - tree.get_sum((uint32_t) idx_x + 1, l - 1, r - 1));
     }
 
     return 0;
